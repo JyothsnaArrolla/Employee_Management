@@ -1,0 +1,18 @@
+<form action="/employees" method="post" enctype="multipart/form-data">
+ First Name: <input type="text" name="firstName" required><br>
+ Last Name: <input type="text" name="lastName" required><br>
+ Middle Name: <input type="text" name="middleName"><br>
+ DOB: <input type="date" name="dob" required><br>
+ Department:
+ <select name="department">
+ <option>Engineering</option>
+ <option>Support</option>
+ <option>HR</option>
+ <option>Finance</option>
+ </select><br>
+ Salary: <input type="number" name="salary" required><br>
+ Permanent Address: <textarea name="permanentAddress"></textarea><br>
+ Current Address: <textarea name="currentAddress"></textarea><br>
+ ID Proof (PDF only): <input type="file" name="file" accept="application/pdf" required><br>
+ <button type="submit">Submit</button>
+</form>
