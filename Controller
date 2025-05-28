@@ -1,0 +1,29 @@
+@RestController
+@RequestMapping("/employees")
+public class EmployeeController {
+ @Autowired
+ private EmployeeService service;
+ @PostMapping
+ public ResponseEntity<Employee> add(@RequestParam("file") MultipartFile file, @ModelAttribute Employee emp)
+throws IOException {
+ return ResponseEntity.ok(service.save(emp, file));
+ }
+ @GetMapping("/search")
+Employee Management Web Application - Project Code
+ public List<Employee> search(@RequestParam String firstName, @RequestParam String department) {
+ return service.search(firstName, department);
+ }
+ @GetMapping("/{id}")
+ public ResponseEntity<Employee> view(@PathVariable Long id) {
+ return service.get(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+ }
+ @PutMapping("/{id}")
+ public ResponseEntity<Employee> update(@PathVariable Long id, @RequestBody Employee emp) {
+ emp.setId(id);
+ return ResponseEntity.ok(service.save(emp, null));
+ }
+ @DeleteMapping("/{id}")
+ public void delete(@PathVariable Long id) {
+ service.delete(id);
+ }
+}
