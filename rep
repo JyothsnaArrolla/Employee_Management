@@ -1,0 +1,5 @@
+@Repository 
+public interface EmployeeRepository extends JpaRepository<Employee, Long> {
+ boolean existsByLoginId(String loginId);
+ List<Employee> findByFirstNameContainingAndDepartmentContaining(String firstName, String department);
+}
