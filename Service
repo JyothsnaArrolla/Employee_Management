@@ -1,0 +1,29 @@
+@Service
+public class EmployeeService {
+ @Autowired
+ private EmployeeRepository repo;
+ public Employee save(Employee emp, MultipartFile file) throws IOException {
+ String loginId;
+ do {
+ loginId = emp.getFirstName().charAt(0) + emp.getLastName().charAt(0) + (int)(Math.random() * 1000);
+ } while (repo.existsByLoginId(loginId));
+ emp.setLoginId(loginId);
+ if (!file.isEmpty() && file.getSize() >= 10240 && file.getSize() <= 1048576 &&
+file.getOriginalFilename().endsWith(".pdf")) {
+ String path = "uploads/" + file.getOriginalFilename();
+ Files.copy(file.getInputStream(), Paths.get(path), StandardCopyOption.REPLACE_EXISTING);
+ emp.setIdProofPath(path);
+ }
+ emp.setCreatedAt(LocalDateTime.now());
+ return repo.save(emp);
+ }
+ public List<Employee> search(String firstName, String department) {
+ return repo.findByFirstNameContainingAndDepartmentContaining(firstName, department);
+ }
+ public Optional<Employee> get(Long id) {
+ return repo.findById(id);
+ }
+ public void delete(Long id) {
+ repo.deleteById(id);
+ }
+}
